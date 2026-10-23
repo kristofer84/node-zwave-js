@@ -133,6 +133,7 @@ It method takes the following arguments:
 
 The `options` bag contains options that influence the resulting commands, for example a transition duration. Each implementation will choose the options that are relevant for it, so you can use the same options everywhere.
 In addition, the `onProgress` property can be used to get notified when the transaction for this command progresses. For details see [Transaction progress](api/driver.md#transaction-progress).
+The `transmitOptions` property overrides the transmit options for the resulting command. On multicast, omitting `TransmitOptions.ACK` disables routing, so only directly reachable nodes receive the command. On singlecast, omitting ACK disables acknowledgements and retries.
 
 <!-- TODO: Auto-Expand this type: #import SetValueAPIOptions from "zwave-js" -->
 
@@ -142,6 +143,8 @@ type SetValueAPIOptions = {
 	transitionDuration?: Duration | string;
 	/** A volume level to be used for activating a Sound Switch CC. */
 	volume?: number;
+	/** Overrides the transmit options for the resulting command. */
+	transmitOptions?: TransmitOptions;
 	/** Will be called when the transaction for this message progresses. */
 	onProgress?: TransactionProgressListener;
 };

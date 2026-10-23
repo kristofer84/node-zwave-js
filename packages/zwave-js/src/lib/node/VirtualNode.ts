@@ -122,6 +122,10 @@ export class VirtualNode extends VirtualEndpoint {
 	/**
 	 * Updates a value for a given property of a given CommandClass.
 	 * This will communicate with the physical node(s) this virtual node represents!
+	 *
+	 * The `transmitOptions` option can be used to override the transmit options
+	 * for the resulting command. On multicast, omitting `TransmitOptions.ACK`
+	 * disables routing, so only directly reachable nodes receive the command.
 	 */
 	public async setValue(
 		valueId: ValueID,
@@ -186,6 +190,13 @@ export class VirtualNode extends VirtualEndpoint {
 			if (typeof options?.onProgress === "function") {
 				api = api.withOptions({
 					onProgress: options.onProgress,
+				});
+			}
+
+			// If the caller requested specific transmit options, use them
+			if (options?.transmitOptions != undefined) {
+				api = api.withOptions({
+					transmitOptions: options.transmitOptions,
 				});
 			}
 

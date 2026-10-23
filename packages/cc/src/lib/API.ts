@@ -104,10 +104,15 @@ export type SetValueImplementationHooksFactory = (
 /**
  * A generic options bag for the `setValue` API.
  * Each implementation will choose the options that are relevant for it, so you can use the same options everywhere.
+ *
+ * `transmitOptions` overrides the transmit options for the resulting command.
+ * On multicast, omitting `TransmitOptions.ACK` disables routing, so only
+ * directly reachable nodes receive the command. On singlecast, omitting ACK
+ * disables acknowledgements and retries.
  * @publicAPI
  */
 export type SetValueAPIOptions = Partial<ValueChangeOptions>
-	& Pick<SendCommandOptions, "onProgress">;
+	& Pick<SendCommandOptions, "onProgress" | "transmitOptions">;
 
 /** Used to identify the method on the CC API class that handles polling values from nodes */
 export const POLL_VALUE: unique symbol = Symbol.for("CCAPI_POLL_VALUE");

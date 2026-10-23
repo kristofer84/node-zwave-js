@@ -602,6 +602,13 @@ export class ZWaveNode extends ZWaveNodeMixins implements QuerySecurityClasses {
 				});
 			}
 
+			// If the caller requested specific transmit options, use them
+			if (options.transmitOptions != undefined) {
+				api = api.withOptions({
+					transmitOptions: options.transmitOptions,
+				});
+			}
+
 			// And call it
 			const result = await api.setValue!.call(
 				api,
